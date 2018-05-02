@@ -1,0 +1,1 @@
+VOC_PATH = '../data/vocgroup.csv'
