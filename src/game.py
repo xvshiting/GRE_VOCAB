@@ -39,6 +39,7 @@ class game(object):
         for index,item in enumerate(self.question_words):
             if item in self.words_1:
                 self.answer.append(str(index))
+
     def judge(self,answer_string):
         user_answer = set(answer_string.split())
         if user_answer == set(self.answer):
@@ -46,33 +47,50 @@ class game(object):
         else:
             return False
 
+    def show_question(self):
+        print_content = ''
+        for index, item in enumerate(myGame.question_words):
+            print_content = print_content + "    " + str(index) + ' ' + item
+            if index == 3:
+                print_content = print_content + '\n'
+        print(print_content)
+        print('Meaning:' + myGame.meaning_1)
+
+
+
+
+    def start(self):
+        while 1==1:
+            round = input('type the round you want to play!\n')
+            round = int(round)
+            self.count = 0
+            self.correct_count = 0
+            while self.count < round:
+                self.count = self.count + 1
+                print('===round ' + str(self.count) + '===')
+                self.set_one_game()
+                self.show_question()
+                answer = input('type your answer:\n')
+                self.feedback(answer)
+            score = self.correct_count / self.count * 100
+            print('You got {score} score'.format(score=score))
+
+
+    def feedback(self,answer):
+        if self.judge(answer):
+            print('You are right. Other words meaning is '+self.meaning_2)
+            self.correct_count = self.correct_count+1
+        else:
+            print('You are wrong. Right answer is :'+' '.join(self.answer))
+            print(self.meaning_1+': '+' '.join(self.words_1))
+            print(self.meaning_2+': '+' '.join(self.words_2))
+
+
+
+
 if __name__ == '__main__':
     myGame = game(dataset.words,dataset.meaning)
-    round = input('type the round you want to play!\n')
-    round = int(round)
-    count = 0
-    correct_count = 0
-    while count<round:
-        count = count+1
-        print('===round '+str(count)+'===')
-        myGame.set_one_game()
-        print_content =''
-        for index, item in enumerate(myGame.question_words):
-            print_content = print_content+"    "+str(index)+' '+item
-            if index == 3:
-                print_content = print_content+'\n'
-        print(print_content)
-        print('Meaning:'+myGame.meaning_1)
-        answer = input('type your answer:\n')
-        if myGame.judge(answer):
-            print('You are right. Other words meaning is '+myGame.meaning_2)
-            correct_count = correct_count+1
-        else:
-            print('You are wrong. Right answer is :'+' '.join(myGame.answer))
-            print(myGame.meaning_1+': '+' '.join(myGame.words_1))
-            print(myGame.meaning_2+': '+' '.join(myGame.words_2))
-    score = correct_count/count*100
-    print('You got {score} score'.format(score=score))
+    myGame.start()
 
 
 
